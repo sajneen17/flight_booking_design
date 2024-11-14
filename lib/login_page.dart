@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'forgot_password_page.dart';
 import 'signup_page.dart';
-import 'flight_booking/flight_booking_page.dart';
+import 'flight_booking_page.dart';
 import 'utils/email_validation.dart';
 import 'utils/password_validation.dart';
 
@@ -87,7 +87,7 @@ class LoginPageState extends State<LoginPage> {
                             if (_formKey.currentState!.validate()) {
                               Navigator.push(
                                 context,
-                                MaterialPageRoute(builder: (context) =>  FlightBookingPage()),
+                                MaterialPageRoute(builder: (context) => const FlightBookingPage()),
                               );
                             }
                           },
@@ -98,6 +98,7 @@ class LoginPageState extends State<LoginPage> {
                             ),
                           ),
                         ),
+
                         const SizedBox(height: 8),
                         TextButton(
                           onPressed: () {
