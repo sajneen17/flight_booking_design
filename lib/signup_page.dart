@@ -1,4 +1,9 @@
 import 'package:flutter/material.dart';
+import 'utils/email_validation.dart';
+import 'utils/password_validation.dart';
+import 'utils/name_validation.dart';
+import 'utils/card_number_validation.dart';
+import 'utils/mobile_number_validation.dart';
 
 class SignUpPage extends StatefulWidget {
   const SignUpPage({super.key});
@@ -16,42 +21,13 @@ class SignUpPageState extends State<SignUpPage> {
   final _passwordController = TextEditingController();
   final _confirmPasswordController = TextEditingController();
 
-
-  String? _validateName(String? value) => value == null || value.isEmpty ? 'Please enter your name' : null;
-
-  String? _validateContact(String? value) {
-    if (value == null || value.isEmpty) return 'Please enter your contact number';
-    if (!RegExp(r'^[0-9]{10}$').hasMatch(value)) return 'Enter a valid 10-digit contact number';
-    return null;
-  }
-
-  String? _validateCardNumber(String? value) {
-    if (value == null || value.isEmpty) return 'Please enter your card number';
-    if (!RegExp(r'^[0-9]{16}$').hasMatch(value)) return 'Enter a valid 16-digit card number';
-    return null;
-  }
-
-  String? _validateEmail(String? value) {
-    const emailPattern = r'^[^@]+@[^@]+\.[^@]+';
-    final emailRegExp = RegExp(emailPattern);
-    if (value == null || value.isEmpty) return 'Please enter your email';
-    if (!emailRegExp.hasMatch(value)) return 'Please enter a valid email address';
-    return null;
-  }
-
-  String? _validatePassword(String? value) {
-    if (value == null || value.isEmpty) return 'Please enter your password';
-    if (value.length < 8) return 'Password must be at least 8 characters';
-    if (!RegExp(r'[A-Z]').hasMatch(value)) return 'Password must contain an uppercase letter';
-    if (!RegExp(r'[a-z]').hasMatch(value)) return 'Password must contain a lowercase letter';
-    if (!RegExp(r'[0-9]').hasMatch(value)) return 'Password must contain a number';
-    if (!RegExp(r'[!@#$%^&*(),.?":{}|<>]').hasMatch(value)) return 'Password must contain a special character';
-    return null;
-  }
-
   String? _validateConfirmPassword(String? value) {
-    if (value == null || value.isEmpty) return 'Please confirm your password';
-    if (value != _passwordController.text) return 'Passwords do not match';
+    if (value == null || value.isEmpty) {
+      return 'Please confirm your password';
+    }
+    if (value != _passwordController.text) {
+      return 'Passwords do not match';
+    }
     return null;
   }
 
@@ -63,7 +39,7 @@ class SignUpPageState extends State<SignUpPage> {
         backgroundColor: Colors.teal,
       ),
       body: Container(
-        color: Colors.teal, // Teal background color
+        color: Colors.teal,
         padding: const EdgeInsets.all(16.0),
         child: Form(
           key: _formKey,
@@ -88,7 +64,6 @@ class SignUpPageState extends State<SignUpPage> {
                 ),
                 child: Column(
                   children: [
-                    // Name Field
                     TextFormField(
                       controller: _nameController,
                       decoration: const InputDecoration(
@@ -96,10 +71,9 @@ class SignUpPageState extends State<SignUpPage> {
                         border: OutlineInputBorder(),
                         prefixIcon: Icon(Icons.person),
                       ),
-                      validator: _validateName,
+                      validator: validateName,
                     ),
                     const SizedBox(height: 16),
-                    // Contact Number Field
                     TextFormField(
                       controller: _contactController,
                       decoration: const InputDecoration(
@@ -108,10 +82,9 @@ class SignUpPageState extends State<SignUpPage> {
                         prefixIcon: Icon(Icons.phone),
                       ),
                       keyboardType: TextInputType.phone,
-                      validator: _validateContact,
+                      validator: validateMobileNumber,
                     ),
                     const SizedBox(height: 16),
-                    // Card Number Field
                     TextFormField(
                       controller: _cardNumberController,
                       decoration: const InputDecoration(
@@ -120,10 +93,9 @@ class SignUpPageState extends State<SignUpPage> {
                         prefixIcon: Icon(Icons.credit_card),
                       ),
                       keyboardType: TextInputType.number,
-                      validator: _validateCardNumber,
+                      validator: validateCardNumber,
                     ),
                     const SizedBox(height: 16),
-
                     TextFormField(
                       controller: _emailController,
                       decoration: const InputDecoration(
@@ -132,10 +104,9 @@ class SignUpPageState extends State<SignUpPage> {
                         prefixIcon: Icon(Icons.email),
                       ),
                       keyboardType: TextInputType.emailAddress,
-                      validator: _validateEmail,
+                      validator: validateEmail,
                     ),
                     const SizedBox(height: 16),
-
                     TextFormField(
                       controller: _passwordController,
                       obscureText: true,
@@ -144,10 +115,9 @@ class SignUpPageState extends State<SignUpPage> {
                         border: OutlineInputBorder(),
                         prefixIcon: Icon(Icons.lock),
                       ),
-                      validator: _validatePassword,
+                      validator: validatePassword,
                     ),
                     const SizedBox(height: 16),
-                    // Confirm Password Field
                     TextFormField(
                       controller: _confirmPasswordController,
                       obscureText: true,

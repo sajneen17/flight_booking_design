@@ -1,23 +1,11 @@
 import 'package:flutter/material.dart';
+import 'utils/email_validation.dart';
 
 class ForgotPasswordPage extends StatelessWidget {
   final _formKey = GlobalKey<FormState>();
   final _emailController = TextEditingController();
 
   ForgotPasswordPage({super.key});
-
-
-  String? _validateEmail(String? value) {
-    const emailPattern = r'^[^@]+@[^@]+\.[^@]+';
-    final emailRegExp = RegExp(emailPattern);
-
-    if (value == null || value.isEmpty) {
-      return 'Please enter your email';
-    } else if (!emailRegExp.hasMatch(value)) {
-      return 'Please enter a valid email address';
-    }
-    return null;
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -50,7 +38,6 @@ class ForgotPasswordPage extends StatelessWidget {
                 textAlign: TextAlign.center,
               ),
               const SizedBox(height: 24),
-              // Email Input Field with Validation
               Container(
                 padding: const EdgeInsets.all(8),
                 decoration: BoxDecoration(
@@ -65,7 +52,7 @@ class ForgotPasswordPage extends StatelessWidget {
                     prefixIcon: Icon(Icons.email),
                   ),
                   keyboardType: TextInputType.emailAddress,
-                  validator: _validateEmail,
+                  validator: validateEmail,
                 ),
               ),
               const SizedBox(height: 24),
@@ -78,9 +65,7 @@ class ForgotPasswordPage extends StatelessWidget {
                   ),
                 ),
                 onPressed: () {
-
                   if (_formKey.currentState!.validate()) {
-                    // Add password reset logic here
                     ScaffoldMessenger.of(context).showSnackBar(
                       SnackBar(content: Text('Reset link sent to ${_emailController.text}')),
                     );
